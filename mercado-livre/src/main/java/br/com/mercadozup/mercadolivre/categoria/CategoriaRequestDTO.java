@@ -3,6 +3,7 @@ package br.com.mercadozup.mercadolivre.categoria;
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 
+
 import br.com.mercadozup.mercadolivre.usuario.UniqueValue;
 
 public class CategoriaRequestDTO {
@@ -10,6 +11,7 @@ public class CategoriaRequestDTO {
 	@NotBlank
 	@UniqueValue(domainClass = Categoria.class, fieldName = "nome")
 	private String nome;
+	@ExisteId(domainClass = Categoria.class, fieldName = "id")
 	private Long idCategoriaMae;
 	
 	
