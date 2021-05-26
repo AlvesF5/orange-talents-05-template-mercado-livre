@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
+
 public class UsuarioRequestDTO {
 	
 	@Email @NotBlank @NotNull 
+	@UniqueValue(domainClass = Usuario.class, fieldName = "login")
 	private String login;
 	@NotBlank @NotNull @Length(min=6)
 	private String senha;
