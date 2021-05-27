@@ -16,7 +16,7 @@ public class Caracteristica {
 	
 	private String descricao;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Produto produto;
 	
 	

@@ -26,7 +26,7 @@ public class Produto {
 	
 	private Integer quantidade;
 	
-	@OneToMany(mappedBy="produto", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy="produto", cascade = CascadeType.ALL)
 	private List<Caracteristica> caracteristicas;
 	
 	private String descricao;
