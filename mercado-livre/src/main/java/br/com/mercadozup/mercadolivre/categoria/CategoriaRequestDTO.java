@@ -35,6 +35,16 @@ public class CategoriaRequestDTO {
 	public Long getIdCategoriaMae() {
 		return idCategoriaMae;
 	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public void setIdCategoriaMae(Long idCategoriaMae) {
+		this.idCategoriaMae = idCategoriaMae;
+	}
 	
 	
 	
