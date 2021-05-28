@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 
 import br.com.mercadozup.mercadolivre.categoria.Categoria;
 import br.com.mercadozup.mercadolivre.categoria.ExisteId;
+import br.com.mercadozup.mercadolivre.usuario.Usuario;
 
 
 
@@ -36,14 +37,18 @@ public class ProdutoRequestDTO {
 	
 	@ExisteId(domainClass = Categoria.class, fieldName = "id")
 	private Long idCategoria;
+	@ExisteId(domainClass = Usuario.class, fieldName = "id")
+	private Usuario donoProduto;
 	
 	
 	
 	
-	public Produto transformarParaProduto(EntityManager manager) {
+	public Produto transformarParaProduto(EntityManager manager, Usuario donoProduto) {
 		Categoria categoria = manager.find(Categoria.class, idCategoria);
 		
-		return new Produto(nome,valor,quantidade,caracteristicas,descricao,categoria);
+		this.donoProduto = donoProduto;
+		
+		return new Produto(nome,valor,quantidade,caracteristicas,descricao,categoria,donoProduto);
 	}
 
 
@@ -75,6 +80,14 @@ public class ProdutoRequestDTO {
 	public Long getIdCategoria() {
 		return idCategoria;
 	}
+
+
+	public Usuario getDonoProduto() {
+		return donoProduto;
+	}
+
+
+	
 	
 	
 	

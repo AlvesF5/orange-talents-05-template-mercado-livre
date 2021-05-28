@@ -2,17 +2,25 @@ package br.com.mercadozup.mercadolivre.produto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import br.com.mercadozup.mercadolivre.categoria.Categoria;
+import br.com.mercadozup.mercadolivre.usuario.Usuario;
 
 @Entity
 public class Produto {
@@ -33,6 +41,13 @@ public class Produto {
 	
 	@ManyToOne
 	private Categoria categoria;
+
+	@ManyToOne @JoinColumn(name ="donoProduto")
+	private Usuario donoProduto;
+
+	@OneToMany(mappedBy="produto", cascade = CascadeType.ALL)
+	@NotEmpty @NotNull
+	private Set<ImagemProduto> imagens = new HashSet<>();
 	
 	private LocalDateTime instanceCriacao = LocalDateTime.now();
 	
@@ -44,13 +59,12 @@ public class Produto {
 
 
 	public Produto(String nome, BigDecimal valor, Integer quantidade, List<Caracteristica> caracteristicas, String descricao,
-			Categoria categoria) {
+			Categoria categoria, Usuario donoProduto) {
 	
 		        caracteristicas.forEach(
 		        		caracteristica -> {
 		        			caracteristica.setProduto(this);
 				});
-		
 		
 		this.nome = nome;
 		this.valor = valor;
@@ -58,6 +72,13 @@ public class Produto {
 		this.caracteristicas = caracteristicas;
 		this.descricao = descricao;
 		this.categoria = categoria;
+		this.donoProduto = donoProduto;
+	}
+	
+	
+	public void adicionarImagens(Set<String> links) {
+		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this,  link) ).collect(Collectors.toSet());
+		this.imagens.addAll(imagens);
 	}
 
 
@@ -94,17 +115,23 @@ public class Produto {
 	public Categoria getCategoria() {
 		return categoria;
 	}
+	
+	public Usuario getDonoProduto() {
+		return donoProduto;
+	}
 
 	public LocalDateTime getInstanceCriacao() {
 		return instanceCriacao;
 	}
 
-
-
 	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
 	
+	
+	public Long getIdDonoProduto() {
+		return donoProduto.getId();
+	}
 
 	
 	
