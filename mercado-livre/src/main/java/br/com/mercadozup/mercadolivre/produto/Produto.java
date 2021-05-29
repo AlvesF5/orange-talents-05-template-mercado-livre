@@ -16,8 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 
 import br.com.mercadozup.mercadolivre.categoria.Categoria;
 import br.com.mercadozup.mercadolivre.usuario.Usuario;
@@ -46,7 +45,7 @@ public class Produto {
 	private Usuario donoProduto;
 
 	@OneToMany(mappedBy="produto", cascade = CascadeType.ALL)
-	@NotEmpty @NotNull
+	
 	private Set<ImagemProduto> imagens = new HashSet<>();
 	
 	private LocalDateTime instanceCriacao = LocalDateTime.now();

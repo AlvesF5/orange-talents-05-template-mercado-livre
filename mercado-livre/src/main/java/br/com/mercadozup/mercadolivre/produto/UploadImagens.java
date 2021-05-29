@@ -18,7 +18,7 @@ public class UploadImagens {
 	
 	public static Set<String> enviar(@NotNull List<MultipartFile> imagens){
 		
-		return imagens.stream().map(imagem ->  imagem.getOriginalFilename()).collect(Collectors.toSet());
+		return imagens.stream().map(imagem -> "http://mercadolivre.com/produto/imagens/" + imagem.getOriginalFilename()).collect(Collectors.toSet());
 		
 		
 	}

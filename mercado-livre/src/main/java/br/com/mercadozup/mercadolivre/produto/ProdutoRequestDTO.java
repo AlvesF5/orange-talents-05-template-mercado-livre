@@ -37,16 +37,11 @@ public class ProdutoRequestDTO {
 	
 	@ExisteId(domainClass = Categoria.class, fieldName = "id")
 	private Long idCategoria;
-	@ExisteId(domainClass = Usuario.class, fieldName = "id")
-	private Usuario donoProduto;
-	
 	
 	
 	
 	public Produto transformarParaProduto(EntityManager manager, Usuario donoProduto) {
 		Categoria categoria = manager.find(Categoria.class, idCategoria);
-		
-		this.donoProduto = donoProduto;
 		
 		return new Produto(nome,valor,quantidade,caracteristicas,descricao,categoria,donoProduto);
 	}
@@ -82,9 +77,7 @@ public class ProdutoRequestDTO {
 	}
 
 
-	public Usuario getDonoProduto() {
-		return donoProduto;
-	}
+	
 
 
 	

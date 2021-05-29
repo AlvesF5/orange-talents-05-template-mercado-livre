@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 import net.bytebuddy.implementation.bind.annotation.Default;
 
@@ -17,7 +20,7 @@ public class ImagemProduto {
 	private Long id;
 	@ManyToOne @NotNull
 	private Produto produto;
-	@NotNull @NotEmpty
+	@Size(min=45)
 	private String link;
 
 	
