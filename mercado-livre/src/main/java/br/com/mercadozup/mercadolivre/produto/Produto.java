@@ -132,6 +132,11 @@ public class Produto {
 		return donoProduto.getId();
 	}
 
+	public Set<ImagemProduto> getImagens() {
+		return imagens;
+	}
+
+	
 	
 	
 	

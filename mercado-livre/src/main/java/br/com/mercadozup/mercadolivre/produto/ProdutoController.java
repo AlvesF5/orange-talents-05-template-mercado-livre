@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.mercadozup.mercadolivre.pergunta.PerguntaRepository;
 import br.com.mercadozup.mercadolivre.usuario.Usuario;
 
 @RestController
@@ -25,6 +27,15 @@ public class ProdutoController {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private OpiniaoRespository opiniaoRespositor;
+	
+	@Autowired
+	private ImagemProdutoRepository imagemProdutoRepository;
+	
+	@Autowired
+	private PerguntaRepository perguntaRepository;
 	
 	@PersistenceContext
 	private EntityManager manager;
@@ -50,6 +61,13 @@ public class ProdutoController {
 		
 		
 		
+	}
+	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<DetalhesProduto> detalhesProduto(@PathVariable("id") Long id){
+		Produto produto = manager.find(Produto.class, id);
+		return ResponseEntity.ok(new DetalhesProduto(produto,opiniaoRespositor, imagemProdutoRepository,perguntaRepository));
 	}
 
 }
