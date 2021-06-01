@@ -137,6 +137,24 @@ public class Produto {
 	}
 
 	
+	public boolean abateQuantidadeEstoque(int quantidade) {
+		if(quantidade > 0 && quantidade <= this.quantidade) {
+			this.quantidade-=quantidade;
+			return true;
+		}return false;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nome=" + nome + ", valor=" + valor + ", descricao=" + descricao + ", categoria=" + categoria + "]";
+	}
+
+
+
+	
+	
 	
 	
 	

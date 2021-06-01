@@ -39,6 +39,12 @@ public class Categoria {
 	public Categoria getCategoriaMae() {
 		return categoriaMae;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Categoria [nome=" + nome + ", categoriaMae=" + categoriaMae + "]";
+	}
 	
 	
 	

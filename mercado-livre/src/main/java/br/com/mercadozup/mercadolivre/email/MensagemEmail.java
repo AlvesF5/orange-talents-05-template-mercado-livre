@@ -13,7 +13,9 @@ public class MensagemEmail {
 	private String corpo;
 	
 	
+	
 
+	
 
 	public MensagemEmail(String remetente, String destinatario, String assunto, String corpo) {
 		this.remetente = remetente;
