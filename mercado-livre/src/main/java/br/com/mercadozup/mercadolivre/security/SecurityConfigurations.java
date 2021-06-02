@@ -48,6 +48,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST,"/login").permitAll()
+		.antMatchers(HttpMethod.POST,"/notas-fiscais").permitAll()
+		.antMatchers(HttpMethod.POST,"/ranking").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

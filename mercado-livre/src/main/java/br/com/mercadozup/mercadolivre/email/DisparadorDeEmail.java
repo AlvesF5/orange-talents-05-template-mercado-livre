@@ -44,4 +44,21 @@ public class DisparadorDeEmail {
 		
 		System.out.println("E-mail enviado com sucesso");
 	}
+	
+	public  void dispararEmailFalhaCompra(Compra compra) {
+		
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+				DisparadorDeEmail.class.getPackage().getName());
+		
+		
+		EnviadorEmail enviador = applicationContext.getBean(EnviadorEmail.class);
+		
+		
+		
+		enviador.enviarEmail(new MensagemEmail("Compra Nao efetuada! <mercadolivrezup@gmail.com>", compra.getComprador().getLogin(), "Informações da compra", compra.toString()));
+		
+		applicationContext.close();
+		
+		System.out.println("E-mail enviado com sucesso");
+	}
 }

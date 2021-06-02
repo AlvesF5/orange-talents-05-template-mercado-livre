@@ -1,5 +1,11 @@
 package br.com.mercadozup.mercadolivre.finalizarcompra;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -7,11 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.mercadozup.mercadolivre.produto.Produto;
 import br.com.mercadozup.mercadolivre.usuario.Usuario;
+import io.jsonwebtoken.lang.Assert;
 
 @Entity
 public class Compra {
@@ -32,6 +41,17 @@ public class Compra {
 	@NotNull
 	@Enumerated
 	private GatewayPagamento gateway;
+	
+	@OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+	private Set<Transacao> transacoes = new HashSet<>();
+	
+	
+	
+	@Deprecated
+	public Compra() {
+
+	}
+
 
 	public Compra(Produto produtoComprado, int quantidade, Usuario comprador, GatewayPagamento gateway) {
 		this.produtoComprado = produtoComprado;
@@ -62,10 +82,12 @@ public class Compra {
 	}
 
 
+	
+
 	@Override
 	public String toString() {
 		return "Compra [id=" + id + ", produtoComprado=" + produtoComprado + ", quantidade=" + quantidade
-				+ ", comprador=" + comprador + "]";
+				+ ", comprador=" + comprador + ", gateway=" + gateway + ", transacoes=" + transacoes + "]";
 	}
 
 
@@ -91,7 +113,33 @@ public class Compra {
 			return false;
 		return true;
 	}
+
+
+	public void adicionaTransacao(@Valid RetornoGatewayPagamento retornoGatewayPagamento) {
+		
+		Transacao novaTransacao = retornoGatewayPagamento.toTransacao(this);
+		
+		Assert.isTrue(!this.transacoes.contains(novaTransacao), "Essa transação já foi processada "+novaTransacao.toString());
+		Set<Transacao> transacoesConcluidasComSucesso = transacoesConcluidasComSucesso();
+		
+		Assert.isTrue(transacoesConcluidasComSucesso.isEmpty(), "Essa compra já foi concluida!");
+		
+		this.transacoes.add(retornoGatewayPagamento.toTransacao(this));
+		
+	}
+
 	
+	
+	private Set<Transacao> transacoesConcluidasComSucesso() {
+		Set<Transacao> transacoesConcluidasComSucesso = this.transacoes.stream().filter(Transacao :: concluidaComSucesso).collect(Collectors.toSet());
+		Assert.isTrue(transacoesConcluidasComSucesso.size() <= 1, "Mais de uma transação foi concluida com sucesso!");
+		return transacoesConcluidasComSucesso;
+	}
+	
+	
+	public boolean processadaComSucesso() {
+		return !transacoesConcluidasComSucesso().isEmpty();
+	}
 	
 	
 	
